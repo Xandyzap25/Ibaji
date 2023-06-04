@@ -1,0 +1,20 @@
+const Alexa = require('ask-sdk-core');
+
+const v = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+    },
+    handle(handlerInput) {
+        const speakOutput = 'Bem-vindo à Rádio IBAJI. Começando a reprodução agora.';
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .addAudioPlayerPlayDirective('REPLACE_ALL', 'https://zeno.fm/radio/igrejaibaji/', 'streamToken', 0, undefined, 'text/plain')
+            .getResponse();
+    }
+};
+
+exports.handler = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+        LaunchRequestHandler,
+    )
+    .lambda();
